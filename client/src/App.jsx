@@ -1,25 +1,12 @@
-import Register from './components/Register';
-import Login from './components/Login';
-import { useAuth } from './context/AuthContext';
+import { Routes, Route } from 'react-router-dom';
+import FrontPage from './pages/FrontPage';
+import GalleryPage from './pages/GalleryPage';
 
-function App() {
-  const { user, logout } = useAuth();
-
+export default function App() {
   return (
-    <div>
-      {user ? (
-        <div>
-          <h2>Welcome, {user.username}</h2>
-          <button onClick={logout}>Logout</button>
-        </div>
-      ) : (
-        <>
-          <Login />
-          <Register />
-        </>
-      )}
-    </div>
+    <Routes>
+      <Route path="/" element={<FrontPage />} />
+      <Route path="/gallery" element={<GalleryPage />} />
+    </Routes>
   );
 }
-
-export default App;
