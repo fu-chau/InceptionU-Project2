@@ -1,25 +1,26 @@
 import express from 'express';
 import cors from 'cors';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { connectDb } from './db.js';
 import authRoutes from './routes/authRoutes.js';
+import videoRoutes from './routes/videos.js';
 
 dotenv.config();
-
+console.log('✅ MONGO_URI:', process.env.MONGO_URI);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB error:', err));
-
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/videos', videoRoutes); // <-- Add this
 
-const server = app.listen(PORT, () => {
-    console.log('Server listening on port ' + PORT);
-});
+// Start the server
+const startServer = async () => {
+  await connectDb();
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+};
+
+startServer();
