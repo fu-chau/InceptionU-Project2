@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const mongo_uri = process.env.MONGO_URI || 'mongodb://localhost:27017/c14-superheroes'
+const mongo_uri = process.env.MONGO_URI || 'mongodb+srv://@yyc.mezzi5y.mongodb.net/'
 
 let connectionPromise = null
 
