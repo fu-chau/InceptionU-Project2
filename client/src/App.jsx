@@ -1,4 +1,11 @@
-import { useState, useEffect } from "react";
+import Register from './components/Register';
 
-const API_URL = "http://localhost:3000/superheroes";
+function App() {
+  return (
+    <div>
+      <Register />
+    </div>
+  );
+}
 
+export default App;
