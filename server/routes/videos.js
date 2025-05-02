@@ -14,4 +14,15 @@ router.get('/top-liked', async (req, res) => {
   }
 });
 
+// GET /api/videos
+router.get('/', async (req, res) => {
+  try {
+    const videos = await Video.find().sort({ createdAt: -1 });
+    res.json(videos);
+  } catch (err) {
+    console.error('Error fetching all videos:', err);
+    res.status(500).json({ error: 'Failed to fetch videos' });
+  }
+});
+
 export default router;

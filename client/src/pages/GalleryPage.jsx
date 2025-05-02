@@ -1,6 +1,6 @@
 import { useAuth } from '../context/AuthContext';
-import VideoGallery from '../components/VideoGallery';
 import Navbar from '../components/Navbar';
+import VideoGallery from '../components/VideoGallery';
 
 const GalleryPage = () => {
   const { user } = useAuth();
@@ -8,7 +8,8 @@ const GalleryPage = () => {
   return (
     <div>
       <Navbar />
-      <h2>Welcome, {user.username}</h2>
+      <h2>Welcome to the Video Gallery</h2>
+      {user && <p>Logged in as {user.username}</p>}
       <VideoGallery />
     </div>
   );
