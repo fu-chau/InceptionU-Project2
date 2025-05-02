@@ -2,6 +2,7 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -32,7 +33,28 @@ router.post('/login', async (req, res) => {
     if (!match) return res.status(400).json({ message: 'Invalid credentials' });
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    res.json({ token, user: { id: user._id, username: user.username } });
+
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        likedVideos: user.likedVideos,        // ✅ include these
+        favoriteVideos: user.favoriteVideos    // ✅ include these
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get current user info
+router.get('/me', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select('username likedVideos favoriteVideos');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    res.json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -18,6 +18,7 @@ router.post('/toggle', authMiddleware, async (req, res) => {
     const video = await Video.findOne({ filename });
     if (!video) return res.status(404).json({ message: 'Video not found' });
 
+
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
@@ -40,13 +41,14 @@ router.post('/toggle', authMiddleware, async (req, res) => {
     await video.save();
 
     res.json({
-      message: `${type} toggled`,
-      updated: {
-        liked: field === 'likedVideos' && !isActive,
-        favorited: field === 'favoriteVideos' && !isActive,
-        [countField]: video[countField],
-      }
-    });
+        message: `${type} toggled`,
+        updated: {
+          liked: field === 'likedVideos' && !isActive,
+          favorited: field === 'favoriteVideos' && !isActive,
+          [countField]: video[countField],
+          videoId: video._id  // 👈 add this to confirm what was stored
+        }
+      });
   } catch (err) {
     console.error('Reaction toggle error:', err);
     res.status(500).json({ message: 'Server error' });

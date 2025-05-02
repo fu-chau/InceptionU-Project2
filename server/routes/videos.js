@@ -5,7 +5,11 @@ const router = express.Router();
 
 router.get('/top-liked', async (req, res) => {
   try {
-    const videos = await Video.find().sort({ likes: -1 }).limit(3);
+    const videos = await Video.find()
+      .sort({ likes: -1 })
+      .limit(3)
+      .select('_id filename camera likes favorites comments');
+
     res.json(videos);
   } catch (err) {
     console.error('Error fetching top liked videos:', err);
@@ -31,7 +35,10 @@ router.get('/', async (req, res) => {
 
     const sortBy = sortOptions[sort] || { createdAt: -1 };
 
-    const videos = await Video.find(filter).sort(sortBy);
+    const videos = await Video.find(filter)
+      .sort(sortBy)
+      .select('_id filename camera likes favorites comments');
+
     res.json(videos);
   } catch (err) {
     console.error('Error fetching videos:', err);
