@@ -14,6 +14,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import ShareIcon from '@mui/icons-material/Share';
 import { useAuth } from '../context/AuthContext';
 import CommentSection from './CommentSection';
+import './VideoModal.css'; // 👈 make sure this is imported
 
 const VideoModal = ({ open, onClose, video }) => {
   const { user } = useAuth();
@@ -31,7 +32,7 @@ const VideoModal = ({ open, onClose, video }) => {
       setComments(video.comments || 0);
       setLiked(user?.likedVideos?.includes(video._id));
       setFavorited(user?.favoriteVideos?.includes(video._id));
-      setShowComments(false); // reset on modal reopen
+      setShowComments(false);
     }
   }, [video, user]);
 
@@ -72,12 +73,10 @@ const VideoModal = ({ open, onClose, video }) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>{video.camera?.location || 'Video'}</DialogTitle>
-      <DialogContent>
-        {!showComments && (
-          <video width="100%" controls autoPlay>
-            <source src={`/videos/${video.filename}`} type="video/mp4" />
-          </video>
-        )}
+      <DialogContent style={{ position: 'relative' }}>
+        <video width="100%" controls autoPlay>
+          <source src={`/videos/${video.filename}`} type="video/mp4" />
+        </video>
 
         <Stack direction="row" spacing={2} justifyContent="center" mt={2}>
           <Tooltip title="Likes">
@@ -110,10 +109,14 @@ const VideoModal = ({ open, onClose, video }) => {
         </Stack>
 
         {showComments && (
-          <CommentSection
-            videoId={video._id}
-            onCommentChange={handleCommentCountChange}
-          />
+          <div className="comment-overlay" onClick={() => setShowComments(false)}>
+            <div className="comment-popup" onClick={(e) => e.stopPropagation()}>
+              <CommentSection
+                videoId={video._id}
+                onCommentChange={handleCommentCountChange}
+              />
+            </div>
+          </div>
         )}
       </DialogContent>
     </Dialog>

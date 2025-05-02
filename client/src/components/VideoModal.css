@@ -1,0 +1,23 @@
+.comment-overlay {
+    position: absolute;
+    bottom: 60px; /* pushes it above the button row */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    pointer-events: none; /* let clicks pass through background */
+  }
+  
+  .comment-popup {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    max-height: 300px;
+    width: 100%;
+    overflow-y: auto;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    pointer-events: all; /* enable interaction inside */
+  }
