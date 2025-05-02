@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -6,16 +6,59 @@ import {
   IconButton,
   Stack,
   Badge,
-  Tooltip
+  Tooltip,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
 import CommentIcon from '@mui/icons-material/Comment';
 import ShareIcon from '@mui/icons-material/Share';
+import { useAuth } from '../context/AuthContext';
 
 const VideoModal = ({ open, onClose, video }) => {
+  const { user } = useAuth();
+  const [likes, setLikes] = useState(video?.likes || 0);
+  const [favorites, setFavorites] = useState(video?.favorites || 0);
+  const [liked, setLiked] = useState(false);
+  const [favorited, setFavorited] = useState(false);
+
+  useEffect(() => {
+    if (video) {
+      setLikes(video.likes || 0);
+      setFavorites(video.favorites || 0);
+      setLiked(user?.likedVideos?.includes(video._id));
+      setFavorited(user?.favoriteVideos?.includes(video._id));
+    }
+  }, [video, user]);
+
+  const handleReaction = async (type) => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+      const res = await fetch('/api/reactions/toggle', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ filename: video.filename, type }),
+      });
+
+      const data = await res.json();
+
+      if (type === 'like') {
+        setLiked((prev) => !prev);
+        setLikes(data.updated.likes);
+      } else if (type === 'favorite') {
+        setFavorited((prev) => !prev);
+        setFavorites(data.updated.favorites);
+      }
+    } catch (err) {
+      console.error('Error toggling reaction:', err);
+    }
+  };
+
   if (!video) return null;
-  console.log('🧪 Video data in modal:', video);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
@@ -27,30 +70,22 @@ const VideoModal = ({ open, onClose, video }) => {
 
         <Stack direction="row" spacing={2} justifyContent="center" mt={2}>
           <Tooltip title="Likes">
-            <IconButton>
-              <Badge
-                badgeContent={video.likes}
-                color="secondary"
-                max={9999}
-              >
-                <FavoriteIcon />
+            <IconButton onClick={() => handleReaction('like')}>
+              <Badge badgeContent={likes} color="secondary" max={9999} showZero>
+                <FavoriteIcon style={{ color: liked ? 'red' : 'gray' }} />
               </Badge>
             </IconButton>
           </Tooltip>
 
           <Tooltip title="Favorites">
-            <IconButton>
-              <StarIcon />
+            <IconButton onClick={() => handleReaction('favorite')}>
+                <StarIcon style={{ color: favorited ? 'gold' : 'gray' }} />
             </IconButton>
           </Tooltip>
 
           <Tooltip title="Comments">
             <IconButton>
-              <Badge
-                badgeContent={video.comments}
-                color="primary"
-                max={9999}
-              >
+              <Badge badgeContent={video.comments || 0} color="primary" max={9999} showZero>
                 <CommentIcon />
               </Badge>
             </IconButton>

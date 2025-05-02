@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { connectDb } from './db.js';
 import authRoutes from './routes/authRoutes.js';
 import videoRoutes from './routes/videos.js';
+import reactionsRoutes from './routes/reactionsRoutes.js';
 
 dotenv.config();
 console.log('✅ MONGO_URI:', process.env.MONGO_URI);
@@ -16,6 +17,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/videos', videoRoutes); // <-- Add this
+app.use('/api/reactions', reactionsRoutes);
 
 // Start the server
 const startServer = async () => {
