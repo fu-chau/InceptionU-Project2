@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import VideoGallery from '../components/VideoGallery';
 import Login from '../components/Login';
 import Register from '../components/Register';
+import Footer from '../components/Footer';
 
 const GalleryPage = () => {
   const { user } = useAuth();
@@ -121,6 +122,7 @@ const GalleryPage = () => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };
