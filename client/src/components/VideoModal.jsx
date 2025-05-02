@@ -13,20 +13,25 @@ import StarIcon from '@mui/icons-material/Star';
 import CommentIcon from '@mui/icons-material/Comment';
 import ShareIcon from '@mui/icons-material/Share';
 import { useAuth } from '../context/AuthContext';
+import CommentSection from './CommentSection';
 
 const VideoModal = ({ open, onClose, video }) => {
   const { user } = useAuth();
   const [likes, setLikes] = useState(video?.likes || 0);
   const [favorites, setFavorites] = useState(video?.favorites || 0);
+  const [comments, setComments] = useState(video?.comments || 0);
   const [liked, setLiked] = useState(false);
   const [favorited, setFavorited] = useState(false);
+  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     if (video) {
       setLikes(video.likes || 0);
       setFavorites(video.favorites || 0);
+      setComments(video.comments || 0);
       setLiked(user?.likedVideos?.includes(video._id));
       setFavorited(user?.favoriteVideos?.includes(video._id));
+      setShowComments(false); // reset on modal reopen
     }
   }, [video, user]);
 
@@ -58,15 +63,21 @@ const VideoModal = ({ open, onClose, video }) => {
     }
   };
 
+  const handleCommentCountChange = (newCount) => {
+    setComments(newCount);
+  };
+
   if (!video) return null;
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>{video.camera?.location || 'Video'}</DialogTitle>
       <DialogContent>
-        <video width="100%" controls autoPlay>
-          <source src={`/videos/${video.filename}`} type="video/mp4" />
-        </video>
+        {!showComments && (
+          <video width="100%" controls autoPlay>
+            <source src={`/videos/${video.filename}`} type="video/mp4" />
+          </video>
+        )}
 
         <Stack direction="row" spacing={2} justifyContent="center" mt={2}>
           <Tooltip title="Likes">
@@ -79,13 +90,13 @@ const VideoModal = ({ open, onClose, video }) => {
 
           <Tooltip title="Favorites">
             <IconButton onClick={() => handleReaction('favorite')}>
-                <StarIcon style={{ color: favorited ? 'gold' : 'gray' }} />
+              <StarIcon style={{ color: favorited ? 'gold' : 'gray' }} />
             </IconButton>
           </Tooltip>
 
           <Tooltip title="Comments">
-            <IconButton>
-              <Badge badgeContent={video.comments || 0} color="primary" max={9999} showZero>
+            <IconButton onClick={() => setShowComments((prev) => !prev)}>
+              <Badge badgeContent={comments} color="primary" max={9999} showZero>
                 <CommentIcon />
               </Badge>
             </IconButton>
@@ -97,6 +108,13 @@ const VideoModal = ({ open, onClose, video }) => {
             </IconButton>
           </Tooltip>
         </Stack>
+
+        {showComments && (
+          <CommentSection
+            videoId={video._id}
+            onCommentChange={handleCommentCountChange}
+          />
+        )}
       </DialogContent>
     </Dialog>
   );

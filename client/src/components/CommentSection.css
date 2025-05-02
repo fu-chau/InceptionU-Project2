@@ -1,0 +1,46 @@
+.comment-section {
+    margin-top: 1rem;
+    border-top: 1px solid #ccc;
+    padding-top: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  .comment-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .comment-form input {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .comment-form button {
+    padding: 0.5rem 1rem;
+  }
+  
+  .comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .comment-item {
+    background: #f7f7f7;
+    padding: 0.5rem;
+    border-radius: 4px;
+    position: relative;
+  }
+  
+  .comment-delete {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    color: red;
+  }
+  
