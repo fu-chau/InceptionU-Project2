@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import VideoModal from './VideoModal';
 import './VideoGallery.css';
 
-const LazyVideo = ({ video }) => {
+const LazyVideo = ({ video, onClick }) => {
   const ref = useRef();
   const [visible, setVisible] = useState(false);
 
@@ -21,9 +23,9 @@ const LazyVideo = ({ video }) => {
   }, []);
 
   return (
-    <div ref={ref} className="video-card">
+    <div ref={ref} className="video-card" onClick={() => onClick(video)} style={{ cursor: 'pointer' }}>
       {visible ? (
-        <video width="100%" controls>
+        <video width="100%" muted>
           <source src={`/videos/${video.filename}`} type="video/mp4" />
         </video>
       ) : (
@@ -37,8 +39,11 @@ const LazyVideo = ({ video }) => {
   );
 };
 
-const VideoGallery = ({ filters }) => {
+const VideoGallery = ({ filters, onRequestLogin }) => {
   const [videos, setVideos] = useState([]);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const params = new URLSearchParams();
@@ -46,19 +51,36 @@ const VideoGallery = ({ filters }) => {
     if (filters.camera) params.append('camera', filters.camera);
     if (filters.location) params.append('location', filters.location);
     if (filters.sort) params.append('sort', filters.sort);
-  
+
     fetch(`/api/videos?${params.toString()}`)
       .then((res) => res.json())
       .then(setVideos)
       .catch((err) => console.error('Error fetching videos:', err));
   }, [filters.quadrant, filters.camera, filters.location, filters.sort]);
 
+  const handleVideoClick = (video) => {
+    if (!user) {
+      onRequestLogin?.(); // call the login modal trigger from parent
+    } else {
+      setSelectedVideo(video);
+      setModalOpen(true);
+    }
+  };
+
   return (
-    <div className="video-grid">
-      {videos.map((video) => (
-        <LazyVideo key={video._id} video={video} />
-      ))}
-    </div>
+    <>
+      <div className="video-grid">
+        {videos.map((video) => (
+          <LazyVideo key={video._id} video={video} onClick={handleVideoClick} />
+        ))}
+      </div>
+
+      <VideoModal
+        open={modalOpen}
+        video={selectedVideo}
+        onClose={() => setModalOpen(false)}
+      />
+    </>
   );
 };
 
