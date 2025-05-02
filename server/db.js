@@ -1,20 +1,16 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
-const mongo_uri = process.env.MONGO_URI || 'mongodb+srv://@yyc.mezzi5y.mongodb.net/'
+const mongo_uri = process.env.MONGO_URI;
 
-let connectionPromise = null
-
-export async function connectDb() {
-    if (!connectionPromise) {
-        connectionPromise = mongoose.connect(mongo_uri);
-    }
-    return await connectionPromise
+if (!mongo_uri) {
+  throw new Error("Missing MONGO_URI in .env");
 }
 
-export async function disconnectDb() {
-    if (connectionPromise) {
-        const mongoose = await connectionPromise
-        await mongoose.connection.close()
-        connectionPromise = null
-    }
+console.log("✅ Using MONGO_URI:", mongo_uri);
+
+export async function connectDb() {
+  await mongoose.connect(mongo_uri);
+  console.log("✅ Connected to MongoDB via Mongoose");
 }
