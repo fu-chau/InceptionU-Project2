@@ -2,7 +2,7 @@
 
 .navbar {
   background-color: #0066ff;
-  color: white;
+  color: rgb(5, 5, 5);
   padding: 1rem 2rem;
   display: flex;
   align-items: center;
@@ -25,7 +25,7 @@
 /* Individual nav links */
 .nav-link {
   position: relative;
-  color: white;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   font-weight: 600;
   background: none;

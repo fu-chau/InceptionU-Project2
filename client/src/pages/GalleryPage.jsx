@@ -5,6 +5,7 @@ import VideoGallery from '../components/VideoGallery';
 import Login from '../components/Login';
 import Register from '../components/Register';
 import Footer from '../components/Footer';
+import './GalleryPage.css'; // Make sure to include this if you haven't
 
 const GalleryPage = () => {
   const { user } = useAuth();
@@ -34,12 +35,12 @@ const GalleryPage = () => {
   return (
     <div>
       <Navbar />
-      <h2>Welcome to the Video Gallery</h2>
-      {user && <p>Logged in as {user.username}</p>}
+      <h2 style={{ textAlign: 'center', marginTop: '1.5rem' }}>Welcome to the Video Gallery</h2>
+      {user && <p style={{ textAlign: 'center' }}>Logged in as {user.username}</p>}
 
-      <div style={{ padding: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-        <div>
-          <label>Quadrant: </label>
+      <div className="filter-container">
+        <div className="filter-group">
+          <label>Quadrant:</label>
           <select value={quadrant} onChange={(e) => setQuadrant(e.target.value)}>
             <option value="">All</option>
             <option value="NW">NW</option>
@@ -49,8 +50,8 @@ const GalleryPage = () => {
           </select>
         </div>
 
-        <div>
-          <label>Camera: </label>
+        <div className="filter-group">
+          <label>Camera:</label>
           <select value={camera} onChange={(e) => setCamera(e.target.value)}>
             <option value="">All</option>
             {cameraOptions.map((cam) => (
@@ -59,8 +60,8 @@ const GalleryPage = () => {
           </select>
         </div>
 
-        <div>
-          <label>Location: </label>
+        <div className="filter-group">
+          <label>Location:</label>
           <input
             type="text"
             value={location}
@@ -69,8 +70,8 @@ const GalleryPage = () => {
           />
         </div>
 
-        <div>
-          <label>Sort by: </label>
+        <div className="filter-group">
+          <label>Sort by:</label>
           <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
             <option value="newest">Newest</option>
             <option value="likes">Most Liked</option>
