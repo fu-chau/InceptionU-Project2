@@ -1,6 +1,41 @@
-.comment-overlay {
+/* Modal Dialog Content */
+.MuiDialog-paper {
+    border-radius: 16px !important;
+    background-color: #ffffff;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  /* Title Styling */
+  .MuiDialogTitle-root {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 0;
+  }
+  
+  /* Reaction Bar */
+  .MuiDialogContent-root {
+    padding: 1.5rem 2rem;
+  }
+  
+  .MuiStack-root {
+    margin-top: 1.5rem;
+  }
+  
+  /* Icon Styling */
+  .MuiIconButton-root {
+    transition: transform 0.2s ease;
+  }
+  
+  .MuiIconButton-root:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Comment Overlay (already styled well) */
+  .comment-overlay {
     position: absolute;
-    bottom: 60px; /* pushes it above the button row */
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
@@ -8,16 +43,19 @@
     max-width: 600px;
     display: flex;
     justify-content: center;
-    pointer-events: none; /* let clicks pass through background */
+    pointer-events: none;
   }
   
   .comment-popup {
     background: #fff;
     padding: 1rem;
-    border-radius: 8px;
+    border-radius: 12px;
     max-height: 300px;
     width: 100%;
     overflow-y: auto;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
-    pointer-events: all; /* enable interaction inside */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    pointer-events: all;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.95rem;
   }
+  
