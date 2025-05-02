@@ -1,21 +1,44 @@
 .video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-    padding: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem 2rem;
+    padding: 2rem 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
   }
   
   .video-card {
     display: flex;
     flex-direction: column;
-    background: #fafafa;
-    padding: 1rem;
+    background: #ffffff;
+    padding: 0.75rem 0.75rem 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+  }
+  
+  .video-card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .video-card video {
+    width: 100%;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.75rem;
   }
   
   .video-info {
-    margin-top: 0.75rem;
     text-align: center;
     font-size: 0.95rem;
+    font-family: 'Montserrat', sans-serif;
+    color: #222;
+    line-height: 1.4;
+  }
+  
+  @media (max-width: 768px) {
+    .video-grid {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem 1.2rem;
+      padding: 1.5rem 1rem;
+    }
   }
