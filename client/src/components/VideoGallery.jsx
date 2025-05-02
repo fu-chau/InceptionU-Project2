@@ -22,7 +22,6 @@ const LazyVideo = ({ video }) => {
 
   return (
     <div ref={ref} className="video-card">
-      <h4>{video.title || video.filename}</h4>
       {visible ? (
         <video width="100%" controls>
           <source src={`/videos/${video.filename}`} type="video/mp4" />
@@ -30,6 +29,11 @@ const LazyVideo = ({ video }) => {
       ) : (
         <div style={{ height: 240, background: '#eee' }}>Loading...</div>
       )}
+
+      <div className="video-info">
+        <p><strong>Camera:</strong> {video.camera?.description || 'Unknown'}</p>
+        <p><strong>Location:</strong> {video.camera?.location || 'N/A'}</p>
+      </div>
     </div>
   );
 };
