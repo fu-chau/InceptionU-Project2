@@ -29,7 +29,6 @@ const LazyVideo = ({ video }) => {
       ) : (
         <div style={{ height: 240, background: '#eee' }}>Loading...</div>
       )}
-
       <div className="video-info">
         <p><strong>Camera:</strong> {video.camera?.description || 'Unknown'}</p>
         <p><strong>Location:</strong> {video.camera?.location || 'N/A'}</p>
@@ -38,15 +37,21 @@ const LazyVideo = ({ video }) => {
   );
 };
 
-const VideoGallery = () => {
+const VideoGallery = ({ filters }) => {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    fetch('/api/videos')
+    const params = new URLSearchParams();
+    if (filters.quadrant) params.append('quadrant', filters.quadrant);
+    if (filters.camera) params.append('camera', filters.camera);
+    if (filters.location) params.append('location', filters.location);
+    if (filters.sort) params.append('sort', filters.sort);
+  
+    fetch(`/api/videos?${params.toString()}`)
       .then((res) => res.json())
       .then(setVideos)
       .catch((err) => console.error('Error fetching videos:', err));
-  }, []);
+  }, [filters.quadrant, filters.camera, filters.location, filters.sort]);
 
   return (
     <div className="video-grid">
