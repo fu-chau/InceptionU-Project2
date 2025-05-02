@@ -4,7 +4,9 @@ import {
   DialogTitle,
   DialogContent,
   IconButton,
-  Stack
+  Stack,
+  Badge,
+  Tooltip
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
@@ -13,6 +15,7 @@ import ShareIcon from '@mui/icons-material/Share';
 
 const VideoModal = ({ open, onClose, video }) => {
   if (!video) return null;
+  console.log('🧪 Video data in modal:', video);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
@@ -23,10 +26,41 @@ const VideoModal = ({ open, onClose, video }) => {
         </video>
 
         <Stack direction="row" spacing={2} justifyContent="center" mt={2}>
-          <IconButton><FavoriteIcon /></IconButton>
-          <IconButton><StarIcon /></IconButton>
-          <IconButton><CommentIcon /></IconButton>
-          <IconButton><ShareIcon /></IconButton>
+          <Tooltip title="Likes">
+            <IconButton>
+              <Badge
+                badgeContent={video.likes}
+                color="secondary"
+                max={9999}
+              >
+                <FavoriteIcon />
+              </Badge>
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Favorites">
+            <IconButton>
+              <StarIcon />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Comments">
+            <IconButton>
+              <Badge
+                badgeContent={video.comments}
+                color="primary"
+                max={9999}
+              >
+                <CommentIcon />
+              </Badge>
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Share">
+            <IconButton>
+              <ShareIcon />
+            </IconButton>
+          </Tooltip>
         </Stack>
       </DialogContent>
     </Dialog>
