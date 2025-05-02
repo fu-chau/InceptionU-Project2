@@ -9,6 +9,7 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); // 🍔 burger toggle
 
   const handleLoginSuccess = () => {
     setShowLoginModal(false);
@@ -18,20 +19,31 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        Tourism <span>Calgary</span>
+        <img src="/img/viewsLogo.svg" alt="Views Logo" />
       </div>
 
-      <div className="nav-links">
-        <Link to="/" className="nav-link">Home</Link>
-        <Link to="/gallery" className="nav-link">Gallery</Link>
-
+      <div className={`nav-links ${menuOpen ? 'active' : ''}`}>
+        <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>Home</Link>
+        <Link to="/gallery" className="nav-link" onClick={() => setMenuOpen(false)}>Gallery</Link>
         {!user ? (
-          <button onClick={() => setShowLoginModal(true)} className="nav-link">
+          <button onClick={() => {
+            setShowLoginModal(true);
+            setMenuOpen(false);
+          }} className="nav-link">
             Login
           </button>
         ) : (
-          <button onClick={logout} className="nav-link">Logout</button>
+          <button onClick={() => {
+            logout();
+            setMenuOpen(false);
+          }} className="nav-link">Logout</button>
         )}
+      </div>
+
+      <div className="burger" onClick={() => setMenuOpen(prev => !prev)}>
+        <div className="bar" />
+        <div className="bar" />
+        <div className="bar" />
       </div>
 
       {showLoginModal && (
