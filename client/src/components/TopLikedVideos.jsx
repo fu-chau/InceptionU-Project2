@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './TopLikedVideos.css';
 
 const TopLikedVideos = () => {
   const [videos, setVideos] = useState([]);
@@ -11,13 +12,12 @@ const TopLikedVideos = () => {
   }, []);
 
   return (
-    <div>
-      <h3>Top 3 Most Liked Videos</h3>
-      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+    <div className="top-liked-container">
+      <h3 className="top-liked-title">Top 3 Most Liked Videos</h3>
+      <div className="top-liked-grid">
         {videos.map((video) => (
-          <div key={video._id} style={{ flex: '1 0 30%' }}>
+          <div key={video._id} className="top-liked-card">
             <video
-              width="100%"
               controls
               src={`/videos/${video.filename}`}
               poster={video.camera?.url || ''}
