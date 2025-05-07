@@ -12,10 +12,14 @@ console.log('✅ MONGO_URI:', process.env.MONGO_URI);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors({ origin: 'http://localhost:5173' }));
+// app.use(cors({ origin: 'http://localhost:5173' }));
+const allowedOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
+app.use(cors({ origin: allowedOrigin }));
+
 app.use(express.json());
 
 // Routes
+app.use(express.static('public'));
 app.use('/api/auth', authRoutes);
 app.use('/api/videos', videoRoutes); // <-- Add this
 app.use('/api/reactions', reactionsRoutes);

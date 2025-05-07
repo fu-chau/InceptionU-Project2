@@ -1,0 +1,48 @@
+.top-liked-container {
+    padding: 1rem;
+  }
+  
+  .top-liked-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .top-liked-grid {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .top-liked-card {
+    flex: 1 1 30%;
+    max-width: 30%;
+    min-width: 250px;
+  }
+  
+  .top-liked-card video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .top-liked-card p {
+    margin: 0.5rem 0;
+    text-align: center;
+  }
+  
+  /* Stack vertically on screens below 768px */
+  @media (max-width: 768px) {
+    .top-liked-grid {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .top-liked-card {
+      max-width: 90%;
+      width: 100%;
+    }
+  }
+  

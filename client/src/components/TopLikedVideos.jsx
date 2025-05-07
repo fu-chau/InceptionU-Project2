@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import VideoModal from './VideoModal';
+import './TopLikedVideos.css';
 
-const TopLikedVideos = () => {
+const TopLikedVideos = ({ onRequestLogin }) => {
+  const { user } = useAuth();
   const [videos, setVideos] = useState([]);
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     fetch('/api/videos/top-liked')
@@ -10,14 +16,27 @@ const TopLikedVideos = () => {
       .catch(err => console.error('Error loading top liked videos', err));
   }, []);
 
+  const handleVideoClick = (video) => {
+    if (!user) {
+      onRequestLogin?.(); // same pattern as in Gallery
+    } else {
+      setSelectedVideo(video);
+      setModalOpen(true);
+    }
+  };
+
   return (
-    <div>
-      <h3>Top 3 Most Liked Videos</h3>
-      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+    <div className="top-liked-container">
+      <h3 className="top-liked-title">Top 3 Most Liked Videos</h3>
+      <div className="top-liked-grid">
         {videos.map((video) => (
-          <div key={video._id} style={{ flex: '1 0 30%' }}>
+          <div
+            key={video._id}
+            className="top-liked-card"
+            onClick={() => handleVideoClick(video)}
+            style={{ cursor: 'pointer' }}
+          >
             <video
-              width="100%"
               controls
               src={`/videos/${video.filename}`}
               poster={video.camera?.url || ''}
@@ -27,6 +46,12 @@ const TopLikedVideos = () => {
           </div>
         ))}
       </div>
+
+      <VideoModal
+        open={modalOpen}
+        video={selectedVideo}
+        onClose={() => setModalOpen(false)}
+      />
     </div>
   );
 };

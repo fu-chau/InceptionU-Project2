@@ -24,6 +24,11 @@ const LazyVideo = ({ video, onClick }) => {
 
   return (
     <div ref={ref} className="video-card" onClick={() => onClick(video)} style={{ cursor: 'pointer' }}>
+      {/* ❤️ Like badge */}
+      <div className="like-badge">
+        ❤️ {video.likes || 0}
+      </div>
+  
       {visible ? (
         <video width="100%" muted>
           <source src={`/videos/${video.filename}`} type="video/mp4" />
@@ -31,6 +36,7 @@ const LazyVideo = ({ video, onClick }) => {
       ) : (
         <div style={{ height: 240, background: '#eee' }}>Loading...</div>
       )}
+  
       <div className="video-info">
         <p><strong>Camera:</strong> {video.camera?.description || 'Unknown'}</p>
         <p><strong>Location:</strong> {video.camera?.location || 'N/A'}</p>

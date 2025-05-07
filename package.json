@@ -1,0 +1,24 @@
+{
+  "name": "blue-sky-city_reactive",
+  "version": "0.0.1",
+  "description": "Lemonade",
+  "main": "/src/main.jsx",
+  "scripts": {
+    "install:server": "cd server && npm install && cd ..",
+    "install:client": "cd client && npm install && cd ..",
+    "install": "npm run install:server && npm run install:client",
+    "build": "cd client && npm run build && cd ..",
+    "start": "cd server && npm run start && cd ..",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fu-chau/InceptionU-Project2.git"
+  },
+  "author": "I-c14-p2-t1",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fu-chau/InceptionU-Project2/issues"
+  },
+  "homepage": "https://github.com/fu-chau/InceptionU-Project2#readme"
+}
