@@ -42,3 +42,21 @@
       padding: 1.5rem 1rem;
     }
   }
+
+  .like-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: red;
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  .video-card {
+    position: relative; /* Add this so .like-badge positions correctly */
+  }
