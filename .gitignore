@@ -1,1 +1,6 @@
 client/public/videos/
+.env.local
+.env.development.local
+.env.test.local
+node_modules
+npm-debug.log*

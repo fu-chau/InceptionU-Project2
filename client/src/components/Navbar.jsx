@@ -19,7 +19,9 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <img src="/img/viewsLogo.svg" alt="Views Logo" />
+        <a href="https://www.visitcalgary.com/" target="_blank" rel="noopener noreferrer">
+        <img src="/img/viewsLogo.svg" alt="Views of Calgary Logo" className="views-logo" />
+        </a>
       </div>
 
       <div className={`nav-links ${menuOpen ? 'active' : ''}`}>
