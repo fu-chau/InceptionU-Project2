@@ -8,4 +8,13 @@ export default defineConfig({
       '/api': 'http://localhost:3000', // <-- send API calls to your backend
     },
   },
+  
+  build: {
+    outDir: "../server/public",
+    emptyOutDir: true,
+  },
+  optimizeDeps: {
+    exclude: ['some-large-package'], // Exclude unnecessary packages
+  },
+
 })
