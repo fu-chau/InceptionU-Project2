@@ -28,7 +28,7 @@ app.use('/api/comments', commentsRoutes);
 // Start the server
 const startServer = async () => {
   await connectDb();
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port 0.0.0.0 ${PORT}`));
 };
 
 startServer();
