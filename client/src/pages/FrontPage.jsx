@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import Navbar from '../components/Navbar';
 import TopLikedVideos from '../components/TopLikedVideos';
@@ -23,10 +23,12 @@ const images = [
 ];
 
 const FrontPage = () => {
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const shuffledImages = images
     .map(value => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value);
+    
 
     const sliderSettings = {
       dots: true,
@@ -57,7 +59,7 @@ const FrontPage = () => {
       </div>
 
       <div className="top-videos-section">
-        <TopLikedVideos />
+        <TopLikedVideos onRequestLogin={() => setShowLoginModal(true)} />
       </div>
       <Footer />
     </div>

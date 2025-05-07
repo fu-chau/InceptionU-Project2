@@ -33,11 +33,13 @@ const VideoModal = ({ open, onClose, video }) => {
   
     setLiked(liked);
     setFavorited(favorited);
-    setLikes(prev => (prev === 0 ? video.likes || 0 : prev));
-    setFavorites(video.favorites || 0);
-    setComments(video.comments || 0);
+  
+    // Reset counts only if switching to a *new* video
+    setLikes(video.likes ?? 0);
+    setFavorites(video.favorites ?? 0);
+    setComments(video.comments ?? 0);
     setShowComments(false);
-  }, [video?._id, user]);
+  }, [video?._id]);
 
   const handleReaction = async (type) => {
     const token = localStorage.getItem('token');
