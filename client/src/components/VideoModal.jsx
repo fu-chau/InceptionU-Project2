@@ -15,6 +15,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import { useAuth } from '../context/AuthContext';
 import CommentSection from './CommentSection';
 import './VideoModal.css'; // 👈 make sure this is imported
+import SharePopup from './SharePopup';
 
 const VideoModal = ({ open, onClose, video }) => {
   const { user, setUser } = useAuth();
@@ -133,7 +134,9 @@ const VideoModal = ({ open, onClose, video }) => {
 
           <Tooltip title="Share">
             <IconButton>
-              <ShareIcon />
+              <SharePopup videoName={video.filename} />
+              {/* Uncomment the line below and comment the line above SharePopup component if you want to use the ShareIcon directly instead of SharePopup */}
+              {/* <ShareIcon /> */}
             </IconButton>
           </Tooltip>
         </Stack>
