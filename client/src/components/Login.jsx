@@ -14,7 +14,7 @@ const Login = ({ onSuccess }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/api/auth/login', form);
+      const res = await axios.post('/api/auth/login', form);
       login(res.data.user, res.data.token);
       setMessage('✅ Logged in!');
       if (onSuccess) onSuccess();
