@@ -16,6 +16,7 @@ app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
 
 // Routes
+app.use(express.static('public'));
 app.use('/api/auth', authRoutes);
 app.use('/api/videos', videoRoutes); // <-- Add this
 app.use('/api/reactions', reactionsRoutes);
