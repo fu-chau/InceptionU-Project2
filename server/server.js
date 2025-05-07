@@ -8,21 +8,34 @@ import videoRoutes from './routes/videos.js';
 import reactionsRoutes from './routes/reactionsRoutes.js';
 import commentsRoutes from './routes/commentsRoutes.js';
 
-dotenv.config();
+dotenv.config(); // Using resolved .env
+
 console.log('✅ MONGO_URI:', process.env.MONGO_URI);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
 
-// app.use(cors({ origin: 'http://localhost:5173' }));
 const allowedOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
-app.use(cors({ origin: allowedOrigin }));
+console.log('✅ CORS origin:', allowedOrigin);
 
-// console.log(`✅ CORS enabled for: ${allowedOrigin}`);
 app.use(cors({
   origin: allowedOrigin,
-  credentials: true
+  credentials: true,
 }));
+
+app.use(express.json());
+app.use(express.static('public'));
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/videos', videoRoutes);
+app.use('/api/reactions', reactionsRoutes);
+app.use('/api/comments', commentsRoutes);
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
 const getLocalIP = () => {
   const interfaces = os.networkInterfaces();
@@ -36,28 +49,12 @@ const getLocalIP = () => {
   return 'localhost';
 };
 
-app.use(express.json());
-
-// Routes
-app.use(express.static('public'));
-app.use('/api/auth', authRoutes);
-app.use('/api/videos', videoRoutes); // <-- Add this
-app.use('/api/reactions', reactionsRoutes);
-app.use('/api/comments', commentsRoutes);
-
-// Start the server
 const startServer = async () => {
   await connectDb();
-  // app.listen(PORT, '0.0.0.0', () => console.log(`Server running on http://0.0.0.0 ${PORT}`));
+  const ip = getLocalIP();
   app.listen(PORT, HOST, () => {
-    const ip = getLocalIP();
     console.log(`✅ Server running at http://${ip}:${PORT}`);
   });
 };
-
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'ok' });
-});
-
 
 startServer();
