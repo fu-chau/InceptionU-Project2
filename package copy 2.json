@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "Lemonade",
   "main": "/src/main.jsx",
-  "type": "module",
 
   "scripts": {
     "install:server": "cd server && npm install && cd ..",

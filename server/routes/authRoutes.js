@@ -24,6 +24,7 @@ router.post('/register', async (req, res) => {
 
 // Login Route
 router.post('/login', async (req, res) => {
+  console.log('📥 Login attempt received:', req.body);
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
@@ -59,6 +60,13 @@ router.get('/me', authMiddleware, async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// TEST
+
+router.get('/test', (req, res) => {
+  res.status(200).json({ message: '✅ Auth route reachable' });
+});
+
 
 // Default Export
 export default router;
